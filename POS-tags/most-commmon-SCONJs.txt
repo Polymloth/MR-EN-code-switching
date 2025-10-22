@@ -1,0 +1,15 @@
+while	25449
+if	4976
+because	2764
+till	1009
+since	751
+though	437
+whenever	145
+unless	135
+whether	112
+although	82
+whereas	60
+besides	59
+wherever	24
+wherein	6
+sonata	5

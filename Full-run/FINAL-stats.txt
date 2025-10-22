@@ -1,0 +1,6 @@
+average: 1.4437575066040633
+median: 1
+mode: 1
+en_ratio average: 0.11413922167607657
+en_ratio median: 0.047619047619047616
+en_ratio mode: 0.0
