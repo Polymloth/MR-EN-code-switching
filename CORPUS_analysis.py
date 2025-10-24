@@ -31,7 +31,7 @@ NOT_ENGLISH = {'tar', 'jar', 'kai', 'la', 'na', 'mi', 'ali', 'te', 'ne', 'ya',
                 'sultan', 'basel', 'jap', 'der', 'ana', 'veer', 'sor', 'hath', 'marathi',
                 'hindu','dole', 'pane', 'hone', 'toch', 'wo', 'tel', 've', 'pa', 'nam', 
                 'thet', 'mere', 'kali', 'bazaar', 'ba', 'em', 'pal' 'sho', 'nan',
-                'ad', 'pith', 'gala', 'bore', 'bg', 'en', 'pak', 'hind', 
+                'ad', 'pith', 'gala', 'bore', 'bg', 'en', 'pak', 'hind', 'ml', 
                 'las', 'tat', 'al', 'ra', 'sur', 'mali', 'po', 'el', 'dost', 'mare', 
                 'galli', 'pas', 'whee', 'das', 'ol', 'sut', 'gore', 'ca', 'mann', 'sap',
                 'pap', 'lat', 'hue', 'mans', 'mains', 'tara', 'lena', 'sha', 'hon', 'sop',
@@ -57,7 +57,7 @@ UNIGRAM_BAN = {'he', 'do', 'to', 'ant', 'hi', 'ya', 'kay', 'mat', 'pan', 'war', 
                'me', 'mars', 'pun', 'sang', 'nay', 'mule', 'to', 'jan', 'gap', 'kate',
                'lag', 'mile', 'gel', 'am', 'rag', 'moth', 'for', 'are', 'as', 'did',
                'tan', 'an', 'chop', 'mug', 'ham', 'tin', 'lay', 'deed', 'go', 'utter',
-               'main', } 
+               'main', 'yet', 'saga', 'mud', 'dish'} 
 
 NE_LIST = {'delhi', 'mumbai', 'monica', 'sweden', 'nathan', 'allah', 'stalin', 'andrew',
            'jane', 'sarah', 'ibrahim', 'hamilton', 'linda', 'hitler', 'john', 'buddha',
@@ -311,7 +311,7 @@ def generate_n_random_file(corpus:list, n:int):
         s_count += 1
         if break_flag == True:
             break
-        output = analyse_sentence(sentence)
+        output, _, _ = analyse_sentence(sentence)
         tokens = output['word_tokens']
         mask = output['mask']
         for tuple_ in zip(tokens, mask):
@@ -386,6 +386,7 @@ en_ratios = [] # en / words
 ratio_dict = defaultdict(int)
 lenlist = []
 only_english = []
+only_mixed = []
 
 def analyse_sentence(raw_sentence:str):
     sentence = process_sentence(raw_sentence) # 0.5e-05
@@ -455,8 +456,8 @@ def analyse_sentence(raw_sentence:str):
         en_ratios.append(en_len/words_len)
         ratio = round(en_len/words_len,3)
         ratio_dict[ratio] += 1
-        if ratio == float(1):
-            only_english.append(raw_sentence) # filtering out english sentences
+        if ratio != float(0):
+            only_mixed.append(raw_sentence) # filtering out english sentences
 
     for ngram in ngrams:
         ngramlens[len(ngram)] += 1
@@ -499,11 +500,14 @@ start = time.time()
 with open('Source-files/filtered_corpus_5M.csv', 'r', encoding='utf-8') as f: 
     corpus = [line for line in f.readlines()]
 
-# generate_n_random_file(corpus,1000)
-
+#generate_n_random_file(corpus,1000)
+#quit()
 
 data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
 
+with open('Source-files/only_mixed_sentences.txt', 'w', encoding='utf-8') as o:
+    for line in only_mixed:
+        o.write(line)
 
 normalised_ngrams = {k: dict(v) for k, v in ngram_dict.items() if dict(v)}
 sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sorted(normalised_ngrams.items(), key=lambda x: x[0])}
