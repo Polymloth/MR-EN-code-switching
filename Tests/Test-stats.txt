@@ -1,6 +1,8 @@
-average: 1.7003684506338599
-median: 1
-mode: 1
-en_ratio average: 0.1499344442860595
-en_ratio median: 0.1
-en_ratio mode: 0.0
+word tokens in total: 163582
+english tokens in total: 26417
+english types in total: 4162
+english types to tokens ratio: 0.15755006245977968
+n-gram lenth average: 1.7379605263157896
+n-gram lenth median: 1.0
+en/mr ratio average: 0.14816214359968458
+en/mr ratio median: 0.0975609756097561

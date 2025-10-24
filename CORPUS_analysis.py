@@ -31,7 +31,7 @@ NOT_ENGLISH = {'tar', 'jar', 'kai', 'la', 'na', 'mi', 'ali', 'te', 'ne', 'ya',
                 'sultan', 'basel', 'jap', 'der', 'ana', 'veer', 'sor', 'hath', 'marathi',
                 'hindu','dole', 'pane', 'hone', 'toch', 'wo', 'tel', 've', 'pa', 'nam', 
                 'thet', 'mere', 'kali', 'bazaar', 'ba', 'em', 'pal' 'sho', 'nan',
-                'ad', 'pith', 'gala', 'bore', 'bg', 'en', 'pak',
+                'ad', 'pith', 'gala', 'bore', 'bg', 'en', 'pak', 'hind', 
                 'las', 'tat', 'al', 'ra', 'sur', 'mali', 'po', 'el', 'dost', 'mare', 
                 'galli', 'pas', 'whee', 'das', 'ol', 'sut', 'gore', 'ca', 'mann', 'sap',
                 'pap', 'lat', 'hue', 'mans', 'mains', 'tara', 'lena', 'sha', 'hon', 'sop',
@@ -332,7 +332,7 @@ def generate_n_random_file(corpus:list, n:int):
 
 def norm_n_sort(d:dict):
     normalised = {k: v for k, v in d.items() if v}
-    return dict(sorted(normalised.items(), key=lambda x: -x[1]))
+    return dict(sorted(normalised.items(), key=lambda x: (-x[1], x[0])))
 
 def find_engrams(zipped_tokens, totals):
     ngrams = []
@@ -428,7 +428,6 @@ def analyse_sentence(raw_sentence:str):
         else:
             mask.append('MR')
 
-
     data_fields = {
                     'sentence': raw_sentence,
                     'all_tokens': raw_tokens,
@@ -473,19 +472,23 @@ def analyse_sentence(raw_sentence:str):
         else:
             mr_type_dict[token.lower()] += 1
 
-    return sentence_data
+    return sentence_data, words_len, en_len
 
 def process_corpus(corpus: list):
-    all_data = {}
+    all_sentence_data = {}
+    word_tokens = 0
+    en_tokens = 0
 
     for i, raw_sentence in enumerate(corpus):
         if i % 1000 == 0:
             print(f'\r{i}', end='')
 
-        sentence_data = analyse_sentence(raw_sentence)
-        all_data[i] = sentence_data
+        sentence_data, words_len, en_len = analyse_sentence(raw_sentence)
+        word_tokens += words_len
+        en_tokens += en_len
+        all_sentence_data[i] = sentence_data
 
-    return all_data
+    return all_sentence_data, word_tokens, en_tokens
 
 #######################################################################################################################
 ######################################################## MAIN #########################################################
@@ -495,10 +498,10 @@ start = time.time()
 with open('Source-files/filtered_corpus_5M.csv', 'r', encoding='utf-8') as f: 
     corpus = [line for line in f.readlines()]
 
-generate_n_random_file(corpus,1000)
+# generate_n_random_file(corpus,1000)
 
-quit()
-data = process_corpus(corpus[:1000]) # 45 minutes for a full run
+
+data, word_tokens, en_tokens = process_corpus(corpus[:10000]) # 45 minutes for a full run
 
 
 normalised_ngrams = {k: dict(v) for k, v in ngram_dict.items() if dict(v)}
@@ -506,37 +509,35 @@ sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sor
 ngramlens = dict(sorted(ngramlens.items(), key=lambda x: x[0]))
 ratio_dict = dict(sorted(ratio_dict.items(), key=lambda x: x[0]))
 
-en_type_dict = norm_n_sort(en_type_dict)
-mr_type_dict = norm_n_sort(mr_type_dict)
-ne_type_dict = norm_n_sort(ne_type_dict)
-bigram_dict = norm_n_sort(ngram_dict[2])
-trigram_dict = norm_n_sort(ngram_dict[3])
-fourgram_dict = norm_n_sort(ngram_dict[4])
 
-prefix = 'Tests/Test'
+PREFIX = 'Tests/Test'
 
-file_dict = {f'{prefix}-en-types': en_type_dict, 
-             f'{prefix}-mr-types': mr_type_dict, 
-             f'{prefix}-NE-types': ne_type_dict, 
-             f'{prefix}-2-grams': bigram_dict, 
-             f'{prefix}-3-grams': trigram_dict, 
-             f'{prefix}-4-grams': fourgram_dict, 
-             f'{prefix}-ngram-lens': ngramlens,
-             f'{prefix}-en-mr-ratios': ratio_dict}
+file_dict = {f'{PREFIX}-en-types': norm_n_sort(en_type_dict), 
+             f'{PREFIX}-mr-types': norm_n_sort(mr_type_dict), 
+             f'{PREFIX}-NE-types': norm_n_sort(ne_type_dict),
+             f'{PREFIX}-1-grams': norm_n_sort(ngram_dict[1]),
+             f'{PREFIX}-2-grams': norm_n_sort(ngram_dict[2]), 
+             f'{PREFIX}-3-grams': norm_n_sort(ngram_dict[3]), 
+             f'{PREFIX}-4-grams': norm_n_sort(ngram_dict[4]), 
+             f'{PREFIX}-ngram-lens': ngramlens,
+             f'{PREFIX}-en-mr-ratios': ratio_dict}
 
 for name, word_set in file_dict.items():
     with open(f'{name}.tsv', 'w', encoding='utf-8') as f:
         for key, count in word_set.items():
             f.write(f'{key}\t{count}\n')
 
-with open(f'{prefix}-stats.txt', 'w', encoding='utf-8') as s:
-    s.write(f'average: {sum(lenlist)/len(lenlist)}\n')
-    s.write(f'median: {statistics.median(lenlist)}\n')
-    s.write(f'mode: {statistics.mode(lenlist)}\n')
-    s.write(f'en_ratio average: {sum(en_ratios)/len(en_ratios)}\n')
-    s.write(f'en_ratio median: {statistics.median(en_ratios)}\n')
-    s.write(f'en_ratio mode: {statistics.mode(en_ratios)}\n')
-
+en_types = len(en_type_dict)
+with open(f'{PREFIX}-stats.txt', 'w', encoding='utf-8') as s:
+    s.write(f'word tokens in total: {word_tokens}\n')
+    s.write(f'english tokens in total: {en_tokens}\n')
+    s.write(f'english types in total: {en_types}\n')
+    s.write(f'english types to tokens ratio: {en_types/en_tokens}\n')
+    s.write(f'english n-gram lenth average: {sum(lenlist)/len(lenlist)}\n')
+    s.write(f'english n-gram lenth median: {statistics.median(lenlist)}\n')
+    s.write(f'en/mr ratio average: {sum(en_ratios)/len(en_ratios)}\n')
+    s.write(f'en/mr ratio median: {statistics.median(en_ratios)}\n')
+    
 print('\rruntime:', round((time.time()-start)/60,2), 'minutes')
 
 
