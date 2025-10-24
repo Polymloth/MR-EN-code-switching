@@ -137,7 +137,7 @@ test = ['run', 'fast', 'hello', 'world', 'serious']
 
 start = time.time()
 
-with open('Full-run/5M-en-types.tsv', 'r', encoding='utf-8') as f: 
+with open('Full-run/FINAL-en-types.tsv', 'r', encoding='utf-8') as f: 
     en_types = [line.split('\t') for line in f.read().splitlines()]
 
 combined_data = []

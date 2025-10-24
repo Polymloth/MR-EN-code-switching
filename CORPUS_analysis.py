@@ -385,7 +385,7 @@ ngramlens = defaultdict(int)
 en_ratios = [] # en / words
 ratio_dict = defaultdict(int)
 lenlist = []
-#only_english = []
+only_english = []
 
 def analyse_sentence(raw_sentence:str):
     sentence = process_sentence(raw_sentence) # 0.5e-05
@@ -414,8 +414,9 @@ def analyse_sentence(raw_sentence:str):
 
     en_words, en_indeces, ngrams, ngram_indeces = find_engrams(zipped_tokens, totals) # 0.25e-05
 
-    words_len = len(word_tokens)
+    words_len = len(word_tokens)+0.00000001
     en_len = len(en_words)
+    ne_len = len(NEs)
 
     mask = []
     for (i, token, ne) in zipped_tokens:
@@ -435,7 +436,7 @@ def analyse_sentence(raw_sentence:str):
                     'word_tokens': processed_tokens,
                     'words_len': len(processed_tokens),
                     'NEs': [token for i, token in NEs],
-                    'NE_len': len(NEs),
+                    'NE_len': ne_len,
                     'non-NE_tokens': [token for i, token in word_tokens],
                     'non-NE_len': words_len,
                     'en_words': en_words,
@@ -454,8 +455,8 @@ def analyse_sentence(raw_sentence:str):
         en_ratios.append(en_len/words_len)
         ratio = round(en_len/words_len,3)
         ratio_dict[ratio] += 1
-        #if ratio == float(1):
-        #    only_english.append(raw_sentence) # filtering out english sentences
+        if ratio == float(1):
+            only_english.append(raw_sentence) # filtering out english sentences
 
     for ngram in ngrams:
         ngramlens[len(ngram)] += 1
@@ -472,7 +473,7 @@ def analyse_sentence(raw_sentence:str):
         else:
             mr_type_dict[token.lower()] += 1
 
-    return sentence_data, words_len, en_len
+    return sentence_data, int(words_len+ne_len), en_len
 
 def process_corpus(corpus: list):
     all_sentence_data = {}
@@ -501,7 +502,7 @@ with open('Source-files/filtered_corpus_5M.csv', 'r', encoding='utf-8') as f:
 # generate_n_random_file(corpus,1000)
 
 
-data, word_tokens, en_tokens = process_corpus(corpus[:10000]) # 45 minutes for a full run
+data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
 
 
 normalised_ngrams = {k: dict(v) for k, v in ngram_dict.items() if dict(v)}
@@ -509,8 +510,7 @@ sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sor
 ngramlens = dict(sorted(ngramlens.items(), key=lambda x: x[0]))
 ratio_dict = dict(sorted(ratio_dict.items(), key=lambda x: x[0]))
 
-
-PREFIX = 'Tests/Test'
+PREFIX = 'Full-run/FINAL'
 
 file_dict = {f'{PREFIX}-en-types': norm_n_sort(en_type_dict), 
              f'{PREFIX}-mr-types': norm_n_sort(mr_type_dict), 
