@@ -385,8 +385,8 @@ ngramlens = defaultdict(int)
 en_ratios = [] # en / words
 ratio_dict = defaultdict(int)
 lenlist = []
-only_english = []
-only_mixed = []
+#only_english = []
+#only_mixed = []
 
 def analyse_sentence(raw_sentence:str):
     sentence = process_sentence(raw_sentence) # 0.5e-05
@@ -456,8 +456,8 @@ def analyse_sentence(raw_sentence:str):
         en_ratios.append(en_len/words_len)
         ratio = round(en_len/words_len,3)
         ratio_dict[ratio] += 1
-        if ratio != float(0):
-            only_mixed.append(raw_sentence) # filtering out english sentences
+        #if ratio != float(0):
+        #    only_mixed.append(raw_sentence) # filtering out english sentences
 
     for ngram in ngrams:
         ngramlens[len(ngram)] += 1
@@ -497,7 +497,7 @@ def process_corpus(corpus: list):
 #######################################################################################################################
 
 start = time.time()
-with open('Source-files/filtered_corpus_5M.csv', 'r', encoding='utf-8') as f: 
+with open('Source-files/only_mixed_language.txt', 'r', encoding='utf-8') as f: 
     corpus = [line for line in f.readlines()]
 
 #generate_n_random_file(corpus,1000)
@@ -505,16 +505,13 @@ with open('Source-files/filtered_corpus_5M.csv', 'r', encoding='utf-8') as f:
 
 data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
 
-with open('Source-files/only_mixed_sentences.txt', 'w', encoding='utf-8') as o:
-    for line in only_mixed:
-        o.write(line)
 
 normalised_ngrams = {k: dict(v) for k, v in ngram_dict.items() if dict(v)}
 sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sorted(normalised_ngrams.items(), key=lambda x: x[0])}
 ngramlens = dict(sorted(ngramlens.items(), key=lambda x: x[0]))
 ratio_dict = dict(sorted(ratio_dict.items(), key=lambda x: x[0]))
 
-PREFIX = 'Full-run/FINAL'
+PREFIX = 'Mixed-lang-only/MIXED-ONLY'
 
 file_dict = {f'{PREFIX}-en-types': norm_n_sort(en_type_dict), 
              f'{PREFIX}-mr-types': norm_n_sort(mr_type_dict), 

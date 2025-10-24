@@ -1,0 +1,8 @@
+word tokens in total: 41934035
+english tokens in total: 7000049
+english types in total: 20670
+english types to tokens ratio: 0.0029528364730018316
+english n-gram lenth average: 1.4818722774756778
+english n-gram lenth median: 1
+en/mr ratio average: 0.2158708721445707
+en/mr ratio median: 0.16666666638888888
