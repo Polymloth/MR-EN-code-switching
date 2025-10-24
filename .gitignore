@@ -1,4 +1,4 @@
 Source-files/corpus_5M.csv
 Source-files/filtered_corpus_5M.csv
 DISTRIBUTIONS_analysis.py
-Source-files/only_mixed_sentences.txt
+Source-files/only_mixed_language.txt
