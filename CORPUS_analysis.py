@@ -323,7 +323,8 @@ def generate_n_random_file(corpus:list, n:int):
             i += 1
             if i > n:
                 break_flag = True
-                break                
+                break             
+            #if tuple_[1] == 'NE':    
             output_list.append(tuple_)
 
     with open(f'{n}-randoms.tsv', 'w', encoding='utf-8') as randoms:
@@ -503,8 +504,10 @@ start = time.time()
 with open('Source-files/only_mixed_language.txt', 'r', encoding='utf-8') as f: 
     corpus = [line for line in f.readlines()]
 
-#generate_n_random_file(corpus,1000)
-#quit()
+generate_n_random_file(corpus,1000)
+
+# Need to generate 1000 random NEs!!!
+quit()
 
 data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
 
@@ -513,7 +516,7 @@ sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sor
 ngramlens = dict(sorted(ngramlens.items(), key=lambda x: x[0]))
 ratio_dict = dict(sorted(ratio_dict.items(), key=lambda x: x[0]))
 
-PREFIX = 'Mixed-lang-only/MIXED-ONLY'
+PREFIX = 'Mixed-lang-only/MULTILINGUAL-ONLY'
 
 file_dict = {f'{PREFIX}-en-types': norm_n_sort(en_type_dict), 
              f'{PREFIX}-mr-types': norm_n_sort(mr_type_dict), 
