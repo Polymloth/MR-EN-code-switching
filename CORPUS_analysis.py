@@ -320,14 +320,15 @@ def generate_n_random_file(corpus:list, n:int):
         for tuple_ in zip(tokens, mask):
             if tuple_[0] == 'dev_token':
                 continue
-            i += 1
-            if i > n:
+            
+            if i >= n:
                 break_flag = True
                 break             
-            #if tuple_[1] == 'NE':    
-            output_list.append(tuple_)
+            if tuple_[1] != 'NE':    
+                i += 1
+                output_list.append(tuple_)
 
-    with open(f'{n}-randoms.tsv', 'w', encoding='utf-8') as randoms:
+    with open(f'{n}-randoms-no-NEs.tsv', 'w', encoding='utf-8') as randoms:
         randoms.write(f'{s_count} sentences up to {n} tokens\n')
         for token, tag in output_list:
             suffix = '\t\t\t\t\n' if token == 'dev_token' else map_to_tabs[tag]
@@ -506,7 +507,6 @@ with open('Source-files/only_mixed_language.txt', 'r', encoding='utf-8') as f:
 
 generate_n_random_file(corpus,1000)
 
-# Need to generate 1000 random NEs!!!
 quit()
 
 data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
