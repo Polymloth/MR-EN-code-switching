@@ -137,7 +137,7 @@ test = ['run', 'fast', 'hello', 'world', 'serious']
 
 start = time.time()
 
-with open('Full-run/FINAL-en-types.tsv', 'r', encoding='utf-8') as f: 
+with open('Multilingual_only/MULTILINGUAL-ONLY-en-types.tsv', 'r', encoding='utf-8') as f: 
     en_types = [line.split('\t') for line in f.read().splitlines()]
 
 combined_data = []
@@ -150,21 +150,18 @@ tokens = [t for t, _ in en_types]
 
 start = time.time() # 2.9s/1k tokens -- 20k tokens in total -- Full run: 1 minute
 token_tags = tag_tokens(tokens)
-print(time.time()-start)
 
 for (token, freq), tag in zip(en_types, token_tags):
     unscaled_freqs[tag] += 1
     scaled_freqs[tag] += int(freq)
     most_common[tag][token] = int(freq)
 
-print(most_common['X'])
-
 unscaled_freqs = dict(sorted(unscaled_freqs.items(), key=lambda x: x[1], reverse=True))
 scaled_freqs = dict(sorted(scaled_freqs.items(), key=lambda x: x[1], reverse=True))
 
 
 for tag in most_common:
-    with open(f'POS-tags/{tag}s.txt', 'w', encoding='utf-8') as f:
+    with open(f'POS-data/{tag}s.txt', 'w', encoding='utf-8') as f:
         for word, freq in most_common[tag].items():
             f.write(f'{word}\t{str(freq)}\n')
 
@@ -174,7 +171,7 @@ files = {
 }
 
 for name, freqs in files.items():
-    with open(f'POS-tags/{name}-POS-frequencies.txt', 'w', encoding='utf-8') as f:
+    with open(f'POS-data/{name}-POS-frequencies.txt', 'w', encoding='utf-8') as f:
         for tag, count in freqs.items():
             f.write(f'{tag}\t{count}\n')
 

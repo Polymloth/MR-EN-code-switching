@@ -1,8 +1,8 @@
-non	3390
+non	3389
 bin	2205
 anti	1563
 ich	261
-wt	238
+wt	237
 fe	108
 ot	94
 les	91
@@ -12,8 +12,8 @@ deja	29
 howe	28
 ahah	10
 hoc	10
-thinkin	8
 rue	8
+thinkin	8
 purest	7
 monsieur	2
 dolce	1

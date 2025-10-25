@@ -1,7 +1,0 @@
-and	56622
-but	27351
-or	18721
-plus	2148
-either	294
-nor	150
-neither	79

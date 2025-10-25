@@ -1,0 +1,7 @@
+and	56464
+but	27315
+or	18709
+plus	2148
+either	292
+nor	150
+neither	79

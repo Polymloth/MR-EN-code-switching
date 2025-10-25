@@ -502,14 +502,13 @@ def process_corpus(corpus: list):
 #######################################################################################################################
 
 start = time.time()
-with open('Source-files/only_mixed_language.txt', 'r', encoding='utf-8') as f: 
+with open('Source-files/only_mixed_language.csv', 'r', encoding='utf-8') as f: 
     corpus = [line for line in f.readlines()]
 
-generate_n_random_file(corpus,1000)
+#generate_n_random_file(corpus,1000)
+#quit()
 
-quit()
-
-data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
+data, word_tokens, en_tokens = process_corpus(corpus) # 45/27 minutes for a full run (filtered/only-mixed)
 
 normalised_ngrams = {k: dict(v) for k, v in ngram_dict.items() if dict(v)}
 sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sorted(normalised_ngrams.items(), key=lambda x: x[0])}

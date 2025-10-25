@@ -1,0 +1,9 @@
+the	39045
+all	19648
+an	5140
+any	3383
+both	2460
+some	2398
+every	2249
+each	733
+another	522
