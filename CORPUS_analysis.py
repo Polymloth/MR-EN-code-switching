@@ -16,27 +16,28 @@ NOT_ENGLISH = {'tar', 'jar', 'kai', 'la', 'na', 'mi', 'ali', 'te', 'ne', 'ya',
                 'le', 'ab', 'ta', 'rt', 'va', 'ho', 'ma', 'sri', 'li', 'aa', 'si', 
                 'tai', 'ni', 'ch', 'tr', 'ye', 'ss', 'bo', 'ti', 'pan', 'dharma',
                 'ch', 'key', 'chi', 'tar', 'jo', 'ch', 'mat', 'kay', 'mag', 'fir',
-                'war', 'cr', 'bagh', 'shah', 'java', 'jay', 'ku', 'jee', 'bal',
+                'war', 'cr', 'bagh', 'shah', 'java', 'jay', 'ku', 'jee', 'bal', 
                 'nigh', 'che', 'don', 'nai', 'atta', 'da', 'khan', 'bolo', 'ja',
-                'par', 'abe', 'mg', 'hoy', 'jana', 'bari', 'bey', 'rey', 'ga', 
-                'rok', 'nay', 'patti', 'hee', 'dana', 'taras', 'mast', 'zing',
+                'par', 'abe', 'mg', 'hoy', 'jana', 'bari', 'bey', 'rey', 'ga', 'sop',
+                'rok', 'nay', 'patti', 'hee', 'dana', 'taras', 'mast', 'zing', 'mor',
                 'dei', 'hum', 'nae', 'sunder', 'marr', 'bahi', 'lah', 'bas', 'sod', 
                 'hafta', 'mal', 'maine', 'aya', 'pta', 'meg', 'gai', 'abbe', 'bolet',
                 'santo', 'alla', 'pad', 'hume', 'mana', 'salle', 'aye', 'di', 'shakya',
-                'bani', 'yr', 'mama', 'mem', 'ja', 'barr', 'ann', 'asch', 'nigh',
+                'bani', 'yr', 'mama', 'mem', 'ja', 'barr', 'ann', 'asch', 'nigh', 
                 'pi', 'jagan', 'ada', 'nai', 'da', 'han', 'krupa', 'dey', 'koan',
                 'atta', 'hal', 'budd', 'tass', 'bich', 'sta', 'katya', 'maze', 'rd',
                 'tau', 'kitti', 'kel', 'pah', 'dag', 'sh', 'gal', 'marin', 'neil',
                 'shu', 'maht', 'zara', 'kok', 'shan', 'swami', 'jai', 'didi', 'sari',
                 'sultan', 'basel', 'jap', 'der', 'ana', 'veer', 'sor', 'hath', 'marathi',
                 'hindu','dole', 'pane', 'hone', 'toch', 'wo', 'tel', 've', 'pa', 'nam', 
-                'thet', 'mere', 'kali', 'bazaar', 'ba', 'em', 'pal' 'sho', 'nan',
-                'ad', 'pith', 'gala', 'bore', 'bg', 'en', 'pak', 'hind', 'ml', 
+                'thet', 'mere', 'kali', 'bazaar', 'ba', 'em', 'pal' 'sho', 'nan', 'san',
+                'ad', 'pith', 'gala', 'bore', 'bg', 'en', 'pak', 'hind', 'ml', 'koop'
                 'las', 'tat', 'al', 'ra', 'sur', 'mali', 'po', 'el', 'dost', 'mare', 
                 'galli', 'pas', 'whee', 'das', 'ol', 'sut', 'gore', 'ca', 'mann', 'sap',
-                'pap', 'lat', 'hue', 'mans', 'mains', 'tara', 'lena', 'sha', 'hon', 'sop',
+                'pap', 'lat', 'hue', 'mans', 'mains', 'tara', 'lena', 'sha', 'hon', 
                 'ajar', 'une', 'maharashtra', 'maharashtrat', 'maharashtracha', 'se',
                 'maharashtrachya', 'maharashtrian', 'maharastra', 'hare', 'ram', 'lo',
+                'bete', 
                 }
 
 # 'en' 'el' and 'al' are SPANISH !
@@ -49,7 +50,7 @@ ENGLISH = {'wud', 'assemb', 'partiality', 'luckyyy', 'ur', 'gif', 'vip', 'sir', 
            'election', 'recipi', 'coment', 'corts', 'public', 'correct', 'companya', 
            'court', 'recepi', 'acount', 'helicopter', 'cake', 'actually', 'sargical',
            'contestant', 'central', 'recepie', 'excellent', 'diarect', 'comment', 'wite',
-           'vidio',
+           'vidio', 'Govt', 'castes', 'veg', 
            }
 
 # can't appear alone but acceptable in an English phrase
@@ -57,7 +58,9 @@ UNIGRAM_BAN = {'he', 'do', 'to', 'ant', 'hi', 'ya', 'kay', 'mat', 'pan', 'war', 
                'me', 'mars', 'pun', 'sang', 'nay', 'mule', 'to', 'jan', 'gap', 'kate',
                'lag', 'mile', 'gel', 'am', 'rag', 'moth', 'for', 'are', 'as', 'did',
                'tan', 'an', 'chop', 'mug', 'ham', 'tin', 'lay', 'deed', 'go', 'utter',
-               'main', 'yet', 'saga', 'mud', 'dish'} 
+               'main', 'yet', 'saga', 'mud', 'dish', 'pure', 'hey', 'mash', 'my', 'on',
+               'man', 'band', 'ache', 'pot', 'mate', 'mule', 
+               } 
 
 NE_LIST = {'delhi', 'mumbai', 'monica', 'sweden', 'nathan', 'allah', 'stalin', 'andrew',
            'jane', 'sarah', 'ibrahim', 'hamilton', 'linda', 'hitler', 'john', 'buddha',
@@ -504,7 +507,6 @@ with open('Source-files/only_mixed_language.txt', 'r', encoding='utf-8') as f:
 #quit()
 
 data, word_tokens, en_tokens = process_corpus(corpus) # 45 minutes for a full run
-
 
 normalised_ngrams = {k: dict(v) for k, v in ngram_dict.items() if dict(v)}
 sorted_ngrams = {k: dict(sorted(v.items(), key=lambda x: -x[1])) for k, v in sorted(normalised_ngrams.items(), key=lambda x: x[0])}
